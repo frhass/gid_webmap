@@ -1,0 +1,56 @@
+
+
+<html>
+<head>
+  <title>GID WebMap</title>
+  <link rel="stylesheet" href="leaflet-1.6.0/leaflet.css"/>
+  <script src="leaflet-1.6.0/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+  <style>
+    #map{ width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <script>
+
+  // initialize the map
+  var map = L.map('map').setView([64.4, -51.09], 9);
+
+  //  base map
+  L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
+      maxZoom: 17,
+      minZoom: 9
+    }).addTo(map);
+
+    // Sentinel-1 tiff
+  L.tileLayer.wms('http://kort.asiaq.gl/geoserver/asiaq_gid/wms', {
+        layers: 'asiaq_gid:godthaab_iceberg_detection',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Godthaab Iceberg Detection"
+      }).addTo(map);
+
+    // GeoJSON layers
+    var geojsonLayer = new L.GeoJSON();
+
+    function handleJson(data) {
+      console.log(data)
+      geojsonLayer.addData(data);
+    }
+
+    $.ajax({
+      url : "http://kort.asiaq.gl/geoserver/asiaq/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=asiaq:godthaab_icebergs_vector&maxFeatures=50&outputFormat=application%2Fjson",
+      dataType : 'jsonp',
+      jsonpCallback: 'getJson',
+      success: handleJson
+    });
+
+
+  </script>
+</body>
+</html>
