@@ -36,26 +36,21 @@
                     }).addTo(map);
 
     // GeoJSON layers
-    var geojsonLayer = new L.GeoJSON();
-
-    function handleJson(data) {
-      console.log(data)
-      geojsonLayer.addData(data);
-    }
-
-    $.ajax({
-      url : "http://kort.asiaq.gl/geoserver/asiaq/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=asiaq:godthaab_icebergs_vector&maxFeatures=50&outputFormat=application%2Fjson",
-      dataType : 'json',
-      jsonpCallback: 'getJson',
-      success: handleJson
-    });
-
+  var outline_vector = L.tileLayer.wms('http://kort.asiaq.gl/geoserver/asiaq/wms?', {
+                    layers: 'asiaq_gid:godthaab_icebergs_vector',
+                    format: 'image/png',
+                    transparent: true,
+                    attribution: "Godthaab Iceberg Detection"
+                  }).addTo(map);
+    
+    
     var basemap = {
 
           };
 
     var overlay = {
-    "RadarImage": radarimage
+    "Radar Image": radarimage,
+    "Iceberg Vector": outline_vector
       };
 
     L.control.layers(basemap, overlay).addTo(map);
