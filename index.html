@@ -35,17 +35,17 @@
                       attribution: "Godthaab Iceberg Detection"
                     }).addTo(map);
 
-    // GeoJSON layers
+    // GeoJSON layer
   var outline_vector = L.tileLayer.wms('http://kort.asiaq.gl/geoserver/asiaq/wms?', {
-                    layers: 'asiaq_gid:godthaab_icebergs_vector',
-                    format: 'image/png',
-                    transparent: true,
-                    attribution: "Godthaab Iceberg Detection"
-                  }).addTo(map);
-    
-    
-    var basemap = {
+                      layers: 'asiaq_gid:godthaab_icebergs_vector',
+                      format: 'image/png',
+                      transparent: true,
+                      attribution: "Godthaab Iceberg Detection"
+                    }).addTo(map);
 
+
+
+    var basemap = {
           };
 
     var overlay = {
